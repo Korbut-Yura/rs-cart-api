@@ -1,0 +1,25 @@
+service: cart-api
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    DATABASE_HOST: ${env.DATABASE_HOST}
+    DATABASE_PORT: ${env.DATABASE_PORT}
+    DATABASE_USERNAME: ${env.DATABASE_USERNAME}
+    DATABASE_PASSWORD: ${env.DATABASE_PASSWORD}
+    DATABASE_NAME: ${env.DATABASE_NAME}
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
